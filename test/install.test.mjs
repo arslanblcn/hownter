@@ -14,7 +14,10 @@ for (const agent of ['claude', 'cursor', 'codex']) {
   test(`${agent} project install is complete and idempotent`, async t => {
     const cwd = await temp(t); const result = await install({ agent, cwd });
     assert.equal(result.length, 7);
-    for (const entry of result) assert.match(await readFile(path.join(entry.destination, 'SKILL.md'), 'utf8'), /^---\nname:/);
+    for (const entry of result) {
+      const skill = await readFile(path.join(entry.destination, 'SKILL.md'), 'utf8');
+      assert.match(skill.replace(/\r\n/g, '\n'), /^---\nname:/);
+    }
     assert.ok((await install({ agent, cwd })).every(r => r.action === 'unchanged'));
   });
 }
