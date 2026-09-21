@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "current_revision": "synthetic-rev-1",
+  "inventory": {
+    "version": "1",
+    "status": "provisional",
+    "approval": null,
+    "modules": [
+      {
+        "id": "vault",
+        "name": "Synthetic vault",
+        "owner": "example-security-owner",
+        "responsibility": "Return a tenant credential after policy evaluation.",
+        "paths": [
+          "examples/toy-pam/vault.mjs"
+        ],
+        "critical": true,
+        "criticality_rationale": "Holds privileged credentials.",
+        "assets": [
+          "tenant credentials"
+        ],
+        "entry_points": [
+          "readCredential"
+        ],
+        "dependencies": [],
+        "evidence": [
+          "examples/toy-pam/vault.mjs at synthetic-rev-1"
+        ],
+        "open_questions": [
+          "No deployment, key-management or runtime evidence supplied."
+        ]
+      }
+    ]
+  },
+  "models": [
+    {
+      "module_id": "vault",
+      "status": "pending_review",
+      "synthetic": true,
+      "analyzed_revision": "synthetic-rev-1",
+      "inventory_version": "1",
+      "assessment_date": "2026-09-21",
+      "completion": {
+        "scope": {
+          "complete": true,
+          "evidence": [
+            "examples/vault-model.md#scope"
+          ]
+        },
+        "architecture": {
+          "complete": true,
+          "evidence": [
+            "examples/vault-model.md#architecture"
+          ]
+        },
+        "threats": {
+          "complete": true,
+          "evidence": [
+            "examples/vault-model.md#threats"
+          ]
+        },
+        "controls": {
+          "complete": true,
+          "evidence": [
+            "examples/vault-model.md#controls"
+          ]
+        },
+        "risk": {
+          "complete": true,
+          "evidence": [
+            "examples/vault-model.md#risk"
+          ]
+        },
+        "verification": {
+          "complete": true,
+          "evidence": [
+            "examples/vault-model.md#verification"
+          ]
+        },
+        "cross_module": {
+          "complete": true,
+          "evidence": [
+            "examples/vault-model.md#cross_module"
+          ]
+        }
+      },
+      "threat_ids": [
+        "T-vault-001"
+      ],
+      "review": null,
+      "freshness": {
+        "checked_revision": "synthetic-rev-1",
+        "decision": "unchanged",
+        "evidence": [
+          "Synthetic snapshot supplied with this example."
+        ]
+      },
+      "ai_provenance": {
+        "agent": "Hownter example author",
+        "model": "example",
+        "run_reference": "synthetic-demonstration"
+      },
+      "artifact": "examples/vault-model.md"
+    }
+  ],
+  "threats": [
+    {
+      "id": "T-vault-001",
+      "module_id": "vault",
+      "title": "Caller-supplied tenant context may bypass isolation",
+      "scenario": "If an upstream caller can choose tenantId without binding it to the authenticated principal, a principal with vault:read may request another tenant credential.",
+      "asset": "tenant credential",
+      "flow_id": "F1",
+      "boundary_id": "B1",
+      "attacker": "Authenticated caller with vault:read in their own tenant",
+      "prerequisites": [
+        "Upstream routing accepts a different tenant identifier."
+      ],
+      "attack_path": [
+        "Supply another tenantId.",
+        "Pass the global scope check.",
+        "Receive the other tenant credential."
+      ],
+      "impact": "Cross-tenant privileged credential disclosure.",
+      "stride": [
+        "I",
+        "E"
+      ],
+      "evidence": [
+        "examples/toy-pam/vault.mjs: readCredential at synthetic-rev-1"
+      ],
+      "evidence_status": "inferred",
+      "confidence": "medium",
+      "open_questions": [
+        "Does an upstream boundary bind tenantId to principal.tenantId?"
+      ],
+      "controls": [
+        {
+          "description": "Global vault:read scope check",
+          "status": "unverified",
+          "evidence": [
+            "examples/toy-pam/vault.mjs"
+          ]
+        }
+      ],
+      "inherent_risk": "high",
+      "residual_risk": "unknown",
+      "risk_rationale": "Credential disclosure is high impact; upstream tenant enforcement is unknown.",
+      "mitigations": [
+        "Bind tenantId to the authenticated principal or verify explicit cross-tenant entitlement."
+      ],
+      "verification": [
+        "In an isolated test, request a different tenant credential with a normal tenant principal."
+      ],
+      "acceptance_criteria": [
+        "Cross-tenant requests are denied before any secret read and generate a redacted audit event."
+      ],
+      "owner": "example-vault-team",
+      "status": "planned",
+      "disposition": "Investigate upstream binding and implement a local tenant-bound policy check.",
+      "review_evidence": []
+    }
+  ]
+}

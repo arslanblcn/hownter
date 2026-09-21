@@ -1,0 +1,687 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/arslanblcn/hownter/assessment.schema.json",
+  "title": "Hownter PAM assessment",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "current_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "inventory": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "provisional",
+            "approved"
+          ]
+        },
+        "approval": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "reviewer": {
+              "type": "string",
+              "minLength": 1
+            },
+            "date": {
+              "type": "string",
+              "format": "date"
+            },
+            "evidence": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "reviewer",
+            "date",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "owner": {
+                "type": "string",
+                "minLength": 1
+              },
+              "responsibility": {
+                "type": "string",
+                "minLength": 1
+              },
+              "paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "critical": {
+                "type": "boolean"
+              },
+              "criticality_rationale": {
+                "type": "string",
+                "minLength": 1
+              },
+              "assets": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "entry_points": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "dependencies": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "open_questions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "owner",
+              "responsibility",
+              "paths",
+              "critical",
+              "criticality_rationale",
+              "assets",
+              "entry_points",
+              "dependencies",
+              "evidence",
+              "open_questions"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "version",
+        "status",
+        "approval",
+        "modules"
+      ],
+      "additionalProperties": false
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "module_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "not_started",
+              "in_progress",
+              "blocked",
+              "pending_review",
+              "covered",
+              "stale"
+            ]
+          },
+          "synthetic": {
+            "type": "boolean"
+          },
+          "analyzed_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "inventory_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "assessment_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "completion": {
+            "type": "object",
+            "properties": {
+              "scope": {
+                "type": "object",
+                "properties": {
+                  "complete": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "required": [
+                  "complete",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              },
+              "architecture": {
+                "type": "object",
+                "properties": {
+                  "complete": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "required": [
+                  "complete",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              },
+              "threats": {
+                "type": "object",
+                "properties": {
+                  "complete": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "required": [
+                  "complete",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              },
+              "controls": {
+                "type": "object",
+                "properties": {
+                  "complete": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "required": [
+                  "complete",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              },
+              "risk": {
+                "type": "object",
+                "properties": {
+                  "complete": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "required": [
+                  "complete",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              },
+              "verification": {
+                "type": "object",
+                "properties": {
+                  "complete": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "required": [
+                  "complete",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              },
+              "cross_module": {
+                "type": "object",
+                "properties": {
+                  "complete": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "required": [
+                  "complete",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "scope",
+              "architecture",
+              "threats",
+              "controls",
+              "risk",
+              "verification",
+              "cross_module"
+            ],
+            "additionalProperties": false
+          },
+          "threat_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "review": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "reviewer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "date": {
+                "type": "string",
+                "format": "date"
+              },
+              "evidence": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "reviewer",
+              "date",
+              "evidence"
+            ],
+            "additionalProperties": false
+          },
+          "freshness": {
+            "type": "object",
+            "properties": {
+              "checked_revision": {
+                "type": "string",
+                "minLength": 1
+              },
+              "decision": {
+                "enum": [
+                  "unchanged",
+                  "unaffected",
+                  "affected",
+                  "unknown"
+                ]
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "checked_revision",
+              "decision",
+              "evidence"
+            ],
+            "additionalProperties": false
+          },
+          "ai_provenance": {
+            "type": "object",
+            "properties": {
+              "agent": {
+                "type": "string",
+                "minLength": 1
+              },
+              "model": {
+                "type": "string",
+                "minLength": 1
+              },
+              "run_reference": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "agent",
+              "model",
+              "run_reference"
+            ],
+            "additionalProperties": false
+          },
+          "artifact": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "module_id",
+          "status",
+          "synthetic",
+          "analyzed_revision",
+          "inventory_version",
+          "assessment_date",
+          "completion",
+          "threat_ids",
+          "review",
+          "freshness",
+          "ai_provenance",
+          "artifact"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "threats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "module_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scenario": {
+            "type": "string",
+            "minLength": 1
+          },
+          "asset": {
+            "type": "string",
+            "minLength": 1
+          },
+          "flow_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "boundary_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "attacker": {
+            "type": "string",
+            "minLength": 1
+          },
+          "prerequisites": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "attack_path": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "impact": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stride": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "S",
+                "T",
+                "R",
+                "I",
+                "D",
+                "E"
+              ]
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence_status": {
+            "enum": [
+              "observed",
+              "inferred",
+              "hypothetical"
+            ]
+          },
+          "confidence": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          },
+          "open_questions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "controls": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "description": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "enum": [
+                    "unverified",
+                    "verified",
+                    "failed"
+                  ]
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "required": [
+                "description",
+                "status",
+                "evidence"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "inherent_risk": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "residual_risk": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical",
+              "unknown"
+            ]
+          },
+          "risk_rationale": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mitigations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "verification": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "acceptance_criteria": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "open",
+              "planned",
+              "mitigated",
+              "accepted",
+              "dismissed"
+            ]
+          },
+          "disposition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "review_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "id",
+          "module_id",
+          "title",
+          "scenario",
+          "asset",
+          "flow_id",
+          "boundary_id",
+          "attacker",
+          "prerequisites",
+          "attack_path",
+          "impact",
+          "stride",
+          "evidence",
+          "evidence_status",
+          "confidence",
+          "open_questions",
+          "controls",
+          "inherent_risk",
+          "residual_risk",
+          "risk_rationale",
+          "mitigations",
+          "verification",
+          "acceptance_criteria",
+          "owner",
+          "status",
+          "disposition",
+          "review_evidence"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "current_revision",
+    "inventory",
+    "models",
+    "threats"
+  ],
+  "additionalProperties": false
+}

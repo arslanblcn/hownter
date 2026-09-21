@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [22, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm run check
+      - run: npm test
+      - run: npm pack
+      - name: Install packed artifact through npx
+        shell: bash
+        run: |
+          mkdir packed-smoke
+          npx --yes --offline --package=./arslanblcn-hownter-0.1.0.tgz hownter install --agent claude --cwd packed-smoke
+          test -f packed-smoke/.claude/skills/hownter-threat-model/SKILL.md
+          node packed-smoke/.claude/skills/hownter-threat-model/scripts/assessment.mjs validate packed-smoke/.claude/skills/hownter-threat-model/assets/assessment.template.json

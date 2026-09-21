@@ -1,0 +1,18 @@
+{
+  "name": "@arslanblcn/hownter",
+  "version": "0.1.0",
+  "description": "Evidence-based PAM threat modeling skills for coding agents",
+  "type": "module",
+  "bin": { "hownter": "bin/hownter.mjs" },
+  "engines": { "node": ">=22" },
+  "files": ["bin/", "lib/", "skills/", "README.md", "LICENSE"],
+  "scripts": {
+    "test": "node --test",
+    "check": "node scripts/check-skills.mjs",
+    "prepack": "npm run check"
+  },
+  "repository": { "type": "git", "url": "git+https://github.com/arslanblcn/hownter.git" },
+  "license": "MIT",
+  "publishConfig": { "access": "public" },
+  "keywords": ["agent-skills", "threat-modeling", "pam", "claude", "codex", "cursor"]
+}
